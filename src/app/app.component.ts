@@ -1,5 +1,8 @@
-import { Component, DoCheck, ElementRef, OnInit } from '@angular/core';
+import { Component, DoCheck, ElementRef, OnInit} from '@angular/core';
 import * as d3 from 'd3';
+var width,height,radius,arc,labelArc,svg,color,pie,g,d1,d2;
+var dataSource1 = './assets/data1.csv',
+dataSource2 = './assets/data2.csv';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +10,18 @@ import * as d3 from 'd3';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements DoCheck{
+export class AppComponent implements OnInit{
 
 constructor(private elementRef: ElementRef) { }
 
- ngDoCheck() {
-  var width,height,radius,arc,labelArc,svg,color,pie,g;
+ ngOnInit() {
+      this.func(dataSource1);
+ }//closing of ngOnInit
+
+
+func(d){
+//   if(d== d1) d ='./assets/data1.csv';
+//   if(d== d2) d ='./assets/data2.csv';
   width = 600,
   height = 300,
   radius = Math.min(width, height) / 2;
@@ -37,11 +46,17 @@ svg = d3.select("#chartID").append("svg")
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+updateChart(d);
+// d3.select("#btn1").on("click", function() {    
+//     this.updateChart(dataSource1);
+// });
 
-var dataSource1 = './assets/data1.csv',
-dataSource2 = './assets/data2.csv';
+// d3.select("#btn2").on("click", function() {    
+// updateChart(dataSource2);
+// // d3.select("#chartID").remove();
+// });
 
-function updateChart(sourcefile) {
+ function updateChart(sourcefile) {
 d3.csv(sourcefile, function(error, data) {
   if (error) throw error;
 
@@ -71,7 +86,6 @@ d3.csv(sourcefile, function(error, data) {
       .attr("dy", ".35em")
       .text(function(d) { return d.data.technologies; });
 });
-}//closing of updateChart function
 
 function animatePie(b) {
   b.innerRadius = 0;
@@ -79,19 +93,7 @@ function animatePie(b) {
   return function(t) { return arc(i(t)); };
 }
 
-//  updateChart(dataSource1);
-//  updateChart(dataSource2);
-
-d3.select("#btn1").on("click", function() {    
-updateChart(dataSource1);
-// d3.select("#chartID").remove();
-});
-
-d3.select("#btn2").on("click", function() {    
-updateChart(dataSource2);
-// d3.select("#chartID").remove();
-});
- 
- }//closing of DoCheck
+}//closing of updateChart function
+ }//closing of func
 
 }//closing of implements onInit
