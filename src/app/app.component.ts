@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges} from '@angular/core';
 import * as d3 from 'd3';
+import { IData } from './data';
+import { DataService } from './data.service';
 
 var width,height,radius,arc,labelArc,svg,color,pie,g,d1,d2;
 
@@ -14,20 +16,28 @@ dataSource2 = './assets/data2.csv';
     
 export class AppComponent implements OnInit{
 
-constructor() { }
+dSource2: IData[];
+
+constructor(private _dataService: DataService) { }
 
  ngOnInit():void {
       this.draw(dataSource1);
  }
 
 onClick1(): void{ 
-      d3.select("svg").remove();  
+      d3.select("svg").remove(); 
       this.draw(dataSource1);
 }
 
 onClick2(): void{ 
-      d3.select("svg").remove();  
+      d3.select("svg").remove();
       this.draw(dataSource2);
+}
+
+onClick3(): void{ 
+      d3.select("svg").remove();
+      this.dSource2 = this._dataService.getData()
+      this.draw(this.dSource2);
 }
 
 draw(d): void {
@@ -58,7 +68,7 @@ svg = d3.select("#chartID").append("svg")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
     this.updateChart(d);
 
- }//closing of func
+ }//closing of draw function
 
 updateChart(sourcefile): void {
   d3.csv(sourcefile, function(error, data) {
