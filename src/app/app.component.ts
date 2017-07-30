@@ -1,9 +1,8 @@
 import { Component, OnInit, OnChanges} from '@angular/core';
 import * as d3 from 'd3';
-import { IData } from './data';
 import { DataService } from './data.service';
 
-var width,height,radius,arc,labelArc,svg,color,pie,g,d1,d2;
+var width,height,radius,arc,labelArc,svg,color,pie,g,d1,d2,dSource2;
 
 var dataSource1 = './assets/data1.csv',
 dataSource2 = './assets/data2.csv';
@@ -16,7 +15,6 @@ dataSource2 = './assets/data2.csv';
     
 export class AppComponent implements OnInit{
 
-dSource2: IData[];
 
 constructor(private _dataService: DataService) { }
 
@@ -36,8 +34,8 @@ onClick2(): void{
 
 onClick3(): void{ 
       d3.select("svg").remove();
-      this.dSource2 = this._dataService.getData()
-      this.draw(this.dSource2);
+      dSource2 = this._dataService.getData()
+      this.draw(dSource2);
 }
 
 draw(d): void {
